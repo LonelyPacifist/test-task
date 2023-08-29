@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,8 @@ namespace test_sber
         private EnemySettings enemySettings;
         [SerializeField]
         private BaseSettings baseSettings;
+        [SerializeField]
+        private LabelsSettings labelsSettings;
 
         [Serializable]
         public class PlayerSettings
@@ -31,12 +34,26 @@ namespace test_sber
         {
             public Vector2 viewportAimCoords;
         }
+        
+        [Serializable]
+        public class LabelsSettings
+        {
+            public List<LocalizationEntry> labels;
+        }
+
+        [Serializable]
+        public class LocalizationEntry
+        {
+            public string Name;
+            public string Value;
+        }
 
         public override void InstallBindings()
         {
             Container.BindInstance(playerSettings.settings);
             Container.BindInstance(enemySettings.settings);
             Container.BindInstance(baseSettings);
+            Container.BindInstance(labelsSettings);
         }
     }
 }

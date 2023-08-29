@@ -19,7 +19,7 @@ namespace test_sber
 
         public void Initialize()
         {
-            _state = State.Running;
+            _state = State.Paused;
         }
         
         public void Pause()
