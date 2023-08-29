@@ -163,8 +163,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 31622737101440848}
-  _identifier: Player
-  _useSceneContext: 0
+  _identifier: 
+  _useSceneContext: 1
   _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &265965355859814025

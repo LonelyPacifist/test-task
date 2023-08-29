@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e861a8341a6746219df6db57b1dbd346, type: 3}
   m_Name: GameSettingsInstaller
   m_EditorClassIdentifier: 
-  player:
-    Settings:
+  playerSettings:
+    settings:
       speed: 10
-      jumpForce: 0.13
+      jumpForce: 1.3
       mouseSensitivity: 10
-      gravity: -0.1
+      gravity: -1
       maxDiscoverDistance: 10
+      enemyLayerTag: Enemy
+  enemySettings:
+    settings:
+      speed: 3
+      spottingTime: 3
+      maxAttackAttemptDelay: 60
+      attackDistance: 1.5
+  baseSettings:
+    viewportAimCoords: {x: 0.5, y: 0.5}

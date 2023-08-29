@@ -6,6 +6,9 @@ namespace test_sber
     {
         public override void InstallBindings()
         {
+            Container.BindInterfacesAndSelfTo<InGameTimeController>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<GameController>().AsSingle().NonLazy();
+            
             InstallEnemies();
             InstallPlayer();
         }

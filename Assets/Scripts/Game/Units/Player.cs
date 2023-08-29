@@ -6,15 +6,19 @@ namespace test_sber
 {
     public class Player : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject _head;
-        
+        [SerializeField] private GameObject _head;
+
         private CharacterController _controller;
         private Vector3 _rotation;
+        [Inject]
         private Settings _settings;
+        [Inject]
+        private GameSettingsInstaller.BaseSettings _baseSettings;
 
-        private Vector3 _viewportTarget = new Vector3(0.5F, 0.5F, 0);
-        
+        private Vector3 ViewportTarget => new Vector3(_baseSettings.viewportAimCoords.x, _baseSettings.viewportAimCoords.y, 0); 
+        private int _enemyLayerMask;
+        private Camera _camera;
+
         [Serializable]
         public class Settings
         {
@@ -23,19 +27,21 @@ namespace test_sber
             public float mouseSensitivity;
             public float gravity;
             public float maxDiscoverDistance;
+            public string enemyLayerTag;
         }
-        
+
         private bool _isOnGround;
-        private float _verticalVelocity; 
-        
+        private float _verticalVelocity;
+
         [Inject]
-        public void Init(Settings settings)
+        public void Init()
         {
-            _settings = settings;
             _controller = GetComponent<CharacterController>();
             _controller.Move(Vector3.zero);
+            _enemyLayerMask = 1 << LayerMask.NameToLayer(_settings.enemyLayerTag);
+            _camera = Camera.main;
         }
-    
+
         private void Update()
         {
             Move();
@@ -47,20 +53,14 @@ namespace test_sber
         {
             _isOnGround = _controller.isGrounded;
 
-            _verticalVelocity += _settings.gravity * Time.deltaTime; 
-            
-            if (_isOnGround && _verticalVelocity < 0)
-            {
-                _verticalVelocity = _settings.gravity; 
-            }
-    
-            if (Input.GetButtonDown("Jump") && _isOnGround)
-            {
-                _verticalVelocity += _settings.jumpForce;
-            }
+            _verticalVelocity += _settings.gravity * Time.deltaTime;
+
+            if (_isOnGround && _verticalVelocity < 0) _verticalVelocity = _settings.gravity;
+
+            if (Input.GetButtonDown("Jump") && _isOnGround) _verticalVelocity += _settings.jumpForce;
 
             var movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            var resultingMovement = transform.TransformDirection(movement) * (_settings.speed * Time.deltaTime) 
+            var resultingMovement = transform.TransformDirection(movement) * (_settings.speed * Time.deltaTime)
                                     + Vector3.up * _verticalVelocity;
 
             _controller.Move(resultingMovement);
@@ -79,11 +79,15 @@ namespace test_sber
         private void TryDiscoverEnemy()
         {
             RaycastHit hit;
-            var ray = Camera.main.ViewportPointToRay(_viewportTarget); //todo убрать Camera.main
+            var ray = _camera.ViewportPointToRay(ViewportTarget);
 
-            if (Physics.Raycast(ray, out hit, _settings.maxDiscoverDistance, 1 << LayerMask.NameToLayer("Enemy")))
+            if (Physics.Raycast(ray, out hit, _settings.maxDiscoverDistance, _enemyLayerMask))
             {
-                Debug.Log("enemy hit");
+                var enemy = hit.collider.GetComponentInParent<ISpottable>();
+                if (enemy != null)
+                {
+                    enemy.TrySpot(Time.deltaTime);
+                }
             }
         }
     }
