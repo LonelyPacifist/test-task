@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 8619317241420148302}
   - component: {fileID: 4592633103289726233}
   - component: {fileID: 1835108487469522188}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 6979486506520998783}
   - component: {fileID: 4192052222547611673}
   - component: {fileID: 305220021}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 5729059944034977962}
   - component: {fileID: 7197178643791268839}
   - component: {fileID: 7086984311533193431}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
