@@ -18,9 +18,11 @@ namespace test_sber
         private TMP_Text _labelResult; 
         
         // todo LabelsResolver закладывается под локализацию
-        public void Build(bool playerKilled, IEnumerable<bool> enemiesSpottedStatus)
+        public void Build(bool playerStatus, IEnumerable<bool> enemiesSpottedStatus)
         {
-            _labelResult.SetText(playerKilled ? _resolver.Resolve("lose") : _resolver.Resolve("win"));
+            _labelResult.SetText(playerStatus 
+                ? _resolver.Resolve(Labels.PlayerStatusWin) 
+                : _resolver.Resolve(Labels.PlayerStatusLose));
             foreach (var enemyStatus in enemiesSpottedStatus)
             {
                 var widget = _uiController.CreateWidget<WidgetEnemyFinalStatus>(_containerEnemiesStatus);

@@ -82,7 +82,8 @@ namespace test_sber
             _inGameTimeController.Pause();
             Time.timeScale = 0;
             var dialogGameOver = _uiController.CreateDialog<DialogGameOver>();
-            dialogGameOver.Build(_playerKilled, _enemies.Select(x => x.Spotted));
+            dialogGameOver.Build(!_playerKilled && _enemies.TrueForAll(x => x.Spotted), 
+                _enemies.Select(x => x.Spotted));
         }
     }
 }

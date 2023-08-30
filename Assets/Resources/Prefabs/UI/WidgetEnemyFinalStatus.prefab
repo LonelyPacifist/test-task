@@ -185,6 +185,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _labelResult: {fileID: 4969647682804042484}
+  _imageBgr: {fileID: 6325815700776001918}
+  _colorSpotted: {r: 0, g: 1, b: 0.08090758, a: 1}
+  _colorNotSpotted: {r: 1, g: 0, b: 0.19670773, a: 1}
 --- !u!1 &7504528568856262165
 GameObject:
   m_ObjectHideFlags: 0

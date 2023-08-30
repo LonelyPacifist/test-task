@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace test_sber
 {
     public class UIController: MonoBehaviour
     {
+        [Inject] 
+        private DiContainer _container;
+        
         private const string PATH_TO_UI_PREFABS = "Prefabs/UI/{0}";
         
         [SerializeField]
@@ -24,7 +28,7 @@ namespace test_sber
                 throw new ArgumentException($"no dialog prefab with name {dialogName}");
             }
 
-            var dialog = Instantiate(dialogPrefab, _dialogsParent).GetComponent<T>();
+            var dialog = _container.InstantiatePrefab(dialogPrefab, _dialogsParent).GetComponent<T>();
             if (dialog == null)
             {
                 throw new ArgumentException($"no corresponding dialog component on dialog {dialogName}");
@@ -58,7 +62,7 @@ namespace test_sber
                 throw new ArgumentException($"no widget prefab with name {widgetName}");
             }
 
-            var widget = Instantiate(prefab, parent).GetComponent<T>();
+            var widget = _container.InstantiatePrefab(prefab, parent).GetComponent<T>();
             if (widget == null)
             {
                 throw new ArgumentException($"no corresponding widget component on dialog {widgetName}");
