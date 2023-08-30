@@ -97,8 +97,12 @@ namespace test_sber
                 case State.Wait:
                     break;
                 case State.Attack:
+                    _nma.autoBraking = false;
+                    _nma.stoppingDistance = EnemySettings.attackDistance;
                     break;
                 case State.Return:
+                    _nma.autoBraking = true;
+                    _nma.stoppingDistance = 0;
                     _nma.SetDestination(_basePosition);
                     break;
                 case State.Idle:

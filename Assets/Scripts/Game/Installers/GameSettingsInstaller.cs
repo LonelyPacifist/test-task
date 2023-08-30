@@ -9,32 +9,14 @@ namespace test_sber
     public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInstaller>
     {
         [SerializeField]
-        private PlayerSettings playerSettings;
+        public Player.Settings playerSettings;
         [SerializeField]
-        private EnemySettings enemySettings;
+        public Enemy.Settings enemySettings;
         [SerializeField]
-        private SpotterSettings spotterSettings;
+        public Spotter.Settings spotterSettings;
         [SerializeField]
         private LabelsSettings labelsSettings;
-
-        [Serializable]
-        public class PlayerSettings
-        {
-            public Player.Settings settings;
-        }
         
-        [Serializable]
-        public class EnemySettings
-        {
-            public Enemy.Settings settings;
-        }
-        
-        [Serializable]
-        public class SpotterSettings
-        {
-            public Spotter.Settings settings;
-        }
-
         [Serializable]
         public class LabelsSettings
         {
@@ -50,9 +32,9 @@ namespace test_sber
 
         public override void InstallBindings()
         {
-            Container.BindInstance(playerSettings.settings);
-            Container.BindInstance(enemySettings.settings);
-            Container.BindInstance(spotterSettings.settings);
+            Container.BindInstance(playerSettings);
+            Container.BindInstance(enemySettings);
+            Container.BindInstance(spotterSettings);
             Container.BindInstance(labelsSettings);
         }
     }

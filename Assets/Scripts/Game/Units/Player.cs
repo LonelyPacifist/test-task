@@ -17,6 +17,7 @@ namespace test_sber
             public float jumpForce;
             public float mouseSensitivity;
             public float gravity;
+            public float cameraYClamp;
         }
         
         [SerializeField] 
@@ -62,7 +63,7 @@ namespace test_sber
             _rotation.x += Input.GetAxis("Mouse X") * _settings.mouseSensitivity;
             _rotation.y -= Input.GetAxis("Mouse Y") * _settings.mouseSensitivity;
             _rotation.x = Mathf.Repeat(_rotation.x, 360);
-            _rotation.y = Mathf.Clamp(_rotation.y, -80, 80);
+            _rotation.y = Mathf.Clamp(_rotation.y, -_settings.cameraYClamp, _settings.cameraYClamp);
             transform.eulerAngles = new Vector3(0, _rotation.x, 0);
             _head.transform.eulerAngles = new Vector3(_rotation.y, _rotation.x, 0);
         }

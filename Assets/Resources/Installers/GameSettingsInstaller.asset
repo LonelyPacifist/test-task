@@ -13,22 +13,20 @@ MonoBehaviour:
   m_Name: GameSettingsInstaller
   m_EditorClassIdentifier: 
   playerSettings:
-    settings:
-      speed: 10
-      jumpForce: 0.4
-      mouseSensitivity: 10
-      gravity: -0.3
+    speed: 10
+    jumpForce: 0.4
+    mouseSensitivity: 10
+    gravity: -0.3
+    cameraYClamp: 80
   enemySettings:
-    settings:
-      speed: 3
-      spottingTime: 3
-      maxAttackAttemptDelay: 20
-      attackDistance: 1.5
+    speed: 3
+    spottingTime: 3
+    maxAttackAttemptDelay: 20
+    attackDistance: 1.5
   spotterSettings:
-    settings:
-      viewportAimCoords: {x: 0.5, y: 0.5}
-      maxDiscoverDistance: 10
-      spottableLayerTag: Enemy
+    viewportAimCoords: {x: 0.5, y: 0.5}
+    maxDiscoverDistance: 10
+    spottableLayerTag: Enemy
   labelsSettings:
     labels:
     - Name: spotted
