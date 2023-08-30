@@ -4,20 +4,11 @@ using Zenject;
 
 namespace test_sber
 {
+    [RequireComponent(typeof(CharacterController))]
     public class Player : MonoBehaviour
     {
-        [SerializeField] private GameObject _head;
-
-        private CharacterController _controller;
-        private Vector3 _rotation;
         [Inject]
         private Settings _settings;
-        [Inject]
-        private GameSettingsInstaller.BaseSettings _baseSettings;
-
-        private Vector3 ViewportTarget => new Vector3(_baseSettings.viewportAimCoords.x, _baseSettings.viewportAimCoords.y, 0); 
-        private int _enemyLayerMask;
-        private Camera _camera;
 
         [Serializable]
         public class Settings
@@ -26,10 +17,13 @@ namespace test_sber
             public float jumpForce;
             public float mouseSensitivity;
             public float gravity;
-            public float maxDiscoverDistance;
-            public string enemyLayerTag;
         }
+        
+        [SerializeField] 
+        private GameObject _head;
 
+        private CharacterController _controller;
+        private Vector3 _rotation;
         private bool _isOnGround;
         private float _verticalVelocity;
 
@@ -38,15 +32,12 @@ namespace test_sber
         {
             _controller = GetComponent<CharacterController>();
             _controller.Move(Vector3.zero);
-            _enemyLayerMask = 1 << LayerMask.NameToLayer(_settings.enemyLayerTag);
-            _camera = Camera.main;
         }
 
         private void Update()
         {
             Move();
             Rotate();
-            TryDiscoverEnemy();
         }
 
         private void Move()
@@ -74,21 +65,6 @@ namespace test_sber
             _rotation.y = Mathf.Clamp(_rotation.y, -80, 80);
             transform.eulerAngles = new Vector3(0, _rotation.x, 0);
             _head.transform.eulerAngles = new Vector3(_rotation.y, _rotation.x, 0);
-        }
-
-        private void TryDiscoverEnemy()
-        {
-            RaycastHit hit;
-            var ray = _camera.ViewportPointToRay(ViewportTarget);
-
-            if (Physics.Raycast(ray, out hit, _settings.maxDiscoverDistance, _enemyLayerMask))
-            {
-                var enemy = hit.collider.GetComponentInParent<ISpottable>();
-                if (enemy != null)
-                {
-                    enemy.TrySpot(Time.deltaTime);
-                }
-            }
         }
     }
 }

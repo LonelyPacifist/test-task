@@ -21,6 +21,12 @@ namespace test_sber
         public T CreateDialog<T>() where T: DialogBase
         {
             var dialogName = typeof(T).Name;
+
+            if (_dialogs.ContainsKey(dialogName))
+            {
+                Debug.Log($"dialog {dialogName} is already opened");
+                CloseDialog<T>();
+            }
             
             var dialogPrefab = Resources.Load<GameObject>(string.Format(PATH_TO_UI_PREFABS, dialogName));
             if (dialogPrefab == null)
@@ -38,7 +44,7 @@ namespace test_sber
             return dialog;
         }
 
-        public bool CloseDialog<T>(T dialogType) where T: DialogBase
+        public bool CloseDialog<T>() where T: DialogBase
         {
             var dialogName = typeof(T).Name;
             

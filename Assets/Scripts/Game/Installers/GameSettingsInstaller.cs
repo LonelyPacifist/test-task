@@ -13,7 +13,7 @@ namespace test_sber
         [SerializeField]
         private EnemySettings enemySettings;
         [SerializeField]
-        private BaseSettings baseSettings;
+        private SpotterSettings spotterSettings;
         [SerializeField]
         private LabelsSettings labelsSettings;
 
@@ -30,11 +30,11 @@ namespace test_sber
         }
         
         [Serializable]
-        public class BaseSettings
+        public class SpotterSettings
         {
-            public Vector2 viewportAimCoords;
+            public Spotter.Settings settings;
         }
-        
+
         [Serializable]
         public class LabelsSettings
         {
@@ -52,7 +52,7 @@ namespace test_sber
         {
             Container.BindInstance(playerSettings.settings);
             Container.BindInstance(enemySettings.settings);
-            Container.BindInstance(baseSettings);
+            Container.BindInstance(spotterSettings.settings);
             Container.BindInstance(labelsSettings);
         }
     }

@@ -18,16 +18,17 @@ MonoBehaviour:
       jumpForce: 0.4
       mouseSensitivity: 10
       gravity: -0.3
-      maxDiscoverDistance: 10
-      enemyLayerTag: Enemy
   enemySettings:
     settings:
       speed: 3
       spottingTime: 3
       maxAttackAttemptDelay: 20
       attackDistance: 1.5
-  baseSettings:
-    viewportAimCoords: {x: 0.5, y: 0.5}
+  spotterSettings:
+    settings:
+      viewportAimCoords: {x: 0.5, y: 0.5}
+      maxDiscoverDistance: 10
+      spottableLayerTag: Enemy
   labelsSettings:
     labels:
     - Name: spotted

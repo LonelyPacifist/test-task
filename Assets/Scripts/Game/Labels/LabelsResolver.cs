@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Zenject;
 
 namespace test_sber
@@ -9,11 +8,6 @@ namespace test_sber
         [Inject] 
         private GameSettingsInstaller.LabelsSettings _settings;
 
-        public LabelsResolver()
-        {
-            Debug.Log("created");
-        }
-        
         public string Resolve(string id)
         {
             var index = _settings.labels.FindIndex(x => x.Name == id);

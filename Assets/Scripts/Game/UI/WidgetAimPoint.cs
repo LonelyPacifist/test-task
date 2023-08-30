@@ -3,9 +3,11 @@ using Zenject;
 
 namespace test_sber
 {
+    [RequireComponent(typeof(RectTransform))]
     public class WidgetAimPoint : MonoBehaviour
     {
-        [Inject] private GameSettingsInstaller.BaseSettings _settings;
+        [Inject] 
+        private Spotter.Settings _settings;
 
         private RectTransform _rectTransform;
 

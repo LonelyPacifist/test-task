@@ -17,7 +17,6 @@ namespace test_sber
         [SerializeField]
         private TMP_Text _labelResult; 
         
-        // todo LabelsResolver закладывается под локализацию
         public void Build(bool playerStatus, IEnumerable<bool> enemiesSpottedStatus)
         {
             _labelResult.SetText(playerStatus 

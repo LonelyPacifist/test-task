@@ -23,6 +23,7 @@ namespace test_sber
         [Inject] 
         private List<Enemy> _enemies;
         private bool _playerKilled;
+        private bool _gameEnded;
         
         public void Initialize()
         {
@@ -40,6 +41,7 @@ namespace test_sber
             foreach (var enemy in _enemies)
             {
                 enemy.TargetReached += HandlePlayerKilled;
+                enemy.gameObject.SetActive(false);
             }
         }
 
@@ -61,6 +63,12 @@ namespace test_sber
 
         private void HandleGameStarted()
         {
+            foreach (var enemy in _enemies)
+            {
+                enemy.TargetReached += HandlePlayerKilled;
+                enemy.gameObject.SetActive(true);
+            }
+            
             _start.gameObject.SetActive(false);
             _finish.gameObject.SetActive(true);
             _inGameTimeController.Resume();
@@ -79,6 +87,11 @@ namespace test_sber
 
         private void EndGame()
         {
+            if (_gameEnded)
+            {
+                return;
+            }
+            _gameEnded = true;
             _inGameTimeController.Pause();
             Time.timeScale = 0;
             var dialogGameOver = _uiController.CreateDialog<DialogGameOver>();

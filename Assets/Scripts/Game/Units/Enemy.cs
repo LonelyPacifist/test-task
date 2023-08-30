@@ -16,25 +16,7 @@ namespace test_sber
             Return,
             Idle
         }
-
-        public event Action TargetReached;
-        public bool Spotted => _spotted;
-        public bool CanBeSpotted => _state == State.Wait || _state == State.Attack;
-
-        [Inject] private Settings _settings;
-        [Inject] private InGameTimeController _inGameTimeController;
-        [Inject] private LazyInject<Player> _player;
-
-        private NavMeshAgent _nma;
-        private float _attackTimestamp;
-        private State _state;
-        private Vector3 _basePosition;
-        private float _totalSpottedTime;
-        private bool _spotted;
-
-        private bool NmaTargetReached => _nma.velocity.sqrMagnitude == 0 && _nma.hasPath &&
-                                      _nma.remainingDistance <= _nma.stoppingDistance;
-
+        
         [Serializable]
         public class Settings
         {
@@ -44,15 +26,35 @@ namespace test_sber
             public float attackDistance;
         }
 
+        [Inject] 
+        public Settings EnemySettings { get; }
+        [Inject] 
+        private InGameTimeController _inGameTimeController;
+        [Inject] 
+        private LazyInject<Player> _player;
+
+        public event Action TargetReached;
+        public bool Spotted => TotalSpottedTime >= EnemySettings.spottingTime;
+        public bool CanBeSpotted => _state == State.Wait || _state == State.Attack;
+        public float TotalSpottedTime { get; private set; }
+
+        private NavMeshAgent _nma;
+        private float _attackTimestamp;
+        private State _state;
+        private Vector3 _basePosition;
+
+        private bool NmaTargetReached => _nma.hasPath && _nma.remainingDistance < _nma.stoppingDistance &&
+                                         Vector3.Distance(_nma.destination, transform.position) <= EnemySettings.attackDistance;
+        
         [Inject]
         public void Init()
         {
             _basePosition = transform.position;
-            _attackTimestamp = Time.time + Random.Range(0, _settings.maxAttackAttemptDelay);
+            _attackTimestamp = Time.time + Random.Range(0, EnemySettings.maxAttackAttemptDelay);
             _state = State.Wait;
             _nma = GetComponent<NavMeshAgent>();
-            _nma.stoppingDistance = _settings.attackDistance;
-            _nma.speed = _settings.speed;
+            _nma.stoppingDistance = EnemySettings.attackDistance;
+            _nma.speed = EnemySettings.speed;
         }
 
         private void Update()
@@ -109,10 +111,9 @@ namespace test_sber
         public void TrySpot(float duration)
         {
             Debug.Log($"{name} spotted!");
-            _totalSpottedTime += duration;
-            if (CanBeSpotted && _totalSpottedTime > _settings.spottingTime)
+            TotalSpottedTime += duration;
+            if (CanBeSpotted && TotalSpottedTime > EnemySettings.spottingTime)
             {
-                _spotted = true;
                 Debug.Log($"{name} fully spotted!");
                 SetState(State.Return);
             }
